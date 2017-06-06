@@ -1,0 +1,30 @@
+﻿<Window x:Class="Storage.OrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Storage"
+        mc:Ignorable="d" Width="300" Title="Оформление заказа" Background="White" ResizeMode="NoResize" 
+        ContentRendered="Window_ContentRendered" Height="265">
+    <DockPanel Margin="0">
+        <StackPanel Style="{StaticResource OutPanel}" DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button x:Name="PayButton" Content="Оплатить" HorizontalContentAlignment="Center" Margin="10,10,0,10" Padding="10,0,10,1" VerticalAlignment="Center" RenderTransformOrigin="0.47,0.555" HorizontalAlignment="Right" Click="PayButton_Click"/>
+        </StackPanel>
+        <!-- field -->
+        <Label Content="Заказчик" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="10,0"/>
+        <TextBox 
+            x:Name="PaymentPurchaser"
+            DockPanel.Dock="Top" Margin="10,0,10,10" Height="21" VerticalAlignment="Top" IsReadOnly="True"/>
+        <!-- field -->
+        <Label Content="Поставщик" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="10,0"/>
+        <TextBox 
+            x:Name="PaymentShipper"
+            DockPanel.Dock="Top" Margin="10,0,10,10" Height="21" VerticalAlignment="Top" IsReadOnly="True"/>
+        <!-- field -->
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="10,20,10,10">
+            <Label Content="Общая сумма заказа" VerticalAlignment="Center" DockPanel.Dock="Top" Margin="0"/>
+            <TextBox x:Name="PaymentTotalPrice" DockPanel.Dock="Top" Margin="30,0,0,0" VerticalAlignment="Center" IsReadOnly="True" MinWidth="129" />
+        </StackPanel>
+        <!-- field -->
+    </DockPanel>
+</Window>

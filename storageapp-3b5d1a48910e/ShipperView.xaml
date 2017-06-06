@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Storage.ShipperView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:Storage"
+             mc:Ignorable="d"
+             x:Name="root"
+             d:DesignHeight="300" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="OrderStatusEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local:OrderStatus"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <TabControl>
+        <TabItem Header="Товары" >
+            <DockPanel Margin="-4">
+                <StackPanel Style="{StaticResource OutPanel}" DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <Button x:Name="ApplyShipmentButton" Content="Применить" HorizontalContentAlignment="Center" Margin="10,10,0,10" Padding="10,0,10,1" VerticalAlignment="Center" RenderTransformOrigin="0.47,0.555" HorizontalAlignment="Right" Click="ApplyShipmentButton_Click" IsEnabled="False"/>
+                    <Button x:Name="ResetShipmentButton" Content="Сбросить" HorizontalContentAlignment="Center" Margin="10,10,0,10" Padding="10,0,10,1" VerticalAlignment="Center" RenderTransformOrigin="0.47,0.555" HorizontalAlignment="Right" Click="ResetShipmentButton_Click"/>
+                </StackPanel>
+                <DataGrid x:Name="ShipperGrid" Margin="10" RowEditEnding="ShipperGrid_RowEditEnding" AutoGenerateColumns="False" ItemsSource="{Binding}" CellEditEnding="ShipperGrid_CellEditEnding" DockPanel.Dock="Top">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Название товара" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Цена за штуку" Binding="{Binding Price}" />
+                        <DataGridTextColumn Header="На складе" Binding="{Binding Count}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </TabItem>
+        <TabItem Header="Заказаы">
+            <DockPanel LastChildFill="False">
+                <DataGrid x:Name="OrdersGrid" Margin="10" DockPanel.Dock="Top" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Номер заказа" Binding="{Binding Id}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Покупатель" Binding="{Binding Purchaser.PublicName}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Дата заказа" Binding="{Binding Date}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="ИТОГО" Binding="{Binding TotalPrice}" IsReadOnly="True" />
+                        <!--<DataGridComboBoxColumn 
+                            Header="Статус" 
+                            ItemsSource="{Binding Source={StaticResource OrderStatusEnum}}"
+                            SelectedItemBinding="{Binding Status}"/>-->
+                        <DataGridTemplateColumn Header="Статус" >
+                            <DataGridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                        <Label Content="{Binding Status}"/>
+                                        <Button x:Name="MarkForSend" Visibility="{Binding SendButtonVisibility}" Content="Посылка в пути" Click="MarkForSend_Click" Margin="0,-5" Padding="5,0,5,1"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <StackPanel.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
+                    </StackPanel.Background>
+                    <Button x:Name="UpdateOrdersButton" Content="Обновить" HorizontalContentAlignment="Center" Margin="10,10,0,10" Padding="10,0,10,1" VerticalAlignment="Center" RenderTransformOrigin="0.47,0.555" HorizontalAlignment="Right" Click="UpdateOrdersButton_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </TabItem>
+        <TabItem Header="Профиль">
+            <DockPanel Margin="-4" LastChildFill="False">
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <StackPanel.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
+                    </StackPanel.Background>
+                    <Button x:Name="ApplyProfileButton" Content="Сохранить" HorizontalContentAlignment="Center" Margin="10,10,0,10" Padding="10,0,10,1" VerticalAlignment="Center" RenderTransformOrigin="0.47,0.555" HorizontalAlignment="Right" Click="ApplyProfileButton_Click"/>
+                </StackPanel>
+                <!--field-->
+                <Label Content="Адресс" DockPanel.Dock="Top" Margin="10,0"/>
+                <TextBox x:Name="ProfileAddress" Height="23" TextWrapping="Wrap" DockPanel.Dock="Top"  Margin="10,0,10,10" />
+                <!--field-->
+                <Label Content="ФИО" DockPanel.Dock="Top" Margin="10,0"/>
+                <TextBox x:Name="ProfileName" Height="23" TextWrapping="Wrap" DockPanel.Dock="Top"  Margin="10,0,10,10"/>
+            </DockPanel>
+        </TabItem>
+    </TabControl>
+</UserControl>

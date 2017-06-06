@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Class="DatabaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=78.29.8.214\MYMSSQL;Initial Catalog=Storage;Persist Security Info=True;User ID=StorageAppClient" SettingsObjectName="Storage.Properties.Settings" SettingsPropertyName="StorageConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="" Member="Role">
+    <Type Name="Role">
+      <Column Name="Name" Type="System.String" CanBeNull="false" />
+      <Column Name="Flags" Storage="_Bitmask" Type="Storage.RoleFlags" CanBeNull="false" />
+      <Column Name="Id" AutoSync="Never" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="User">
+    <Type Name="User">
+      <Column Name="Login" Type="System.String" CanBeNull="false" />
+      <Column Name="Password" Type="System.Byte[]" CanBeNull="false" />
+      <Column Name="Role_id" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Id" AutoSync="Never" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="User_Meta" Member="Meta" ThisKey="Id" OtherKey="User_id" Type="Meta" Cardinality="One" />
+      <Association Name="Role_User" Member="Role" ThisKey="Role_id" OtherKey="Id" Type="Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Product">
+    <Type Name="Product">
+      <Column Name="Id" AutoSync="Never" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" CanBeNull="false" />
+      <Column Name="Price" Type="System.Int64" CanBeNull="false" />
+      <Column Name="Count" Type="double" CanBeNull="false" />
+      <Column Name="Shipper_id" Storage="_User_id" Type="System.Int32" CanBeNull="false" />
+      <Association Name="Product_ProductList" Member="ProductList" ThisKey="Id" OtherKey="Product_id" Type="ProductList" />
+      <Association Name="User_Product" Member="Shipper" ThisKey="Shipper_id" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Meta">
+    <Type Name="Meta">
+      <Column Name="Id" AutoSync="Never" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" CanBeNull="false" />
+      <Column Name="User_id" Type="System.Int32" CanBeNull="false" />
+      <Association Name="User_Meta" Member="User" ThisKey="User_id" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Order">
+    <Type Name="Order">
+      <Column Name="Purchaser_id" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Shipper_id" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Id" AutoSync="Never" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Price" Member="TotalPrice" Storage="_Price" Type="System.Double" CanBeNull="false" />
+      <Column Name="Status" Type="Storage.OrderStatus" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" CanBeNull="false" />
+      <Association Name="Order_ProductList" Member="ProductList" ThisKey="Id" OtherKey="Order_id" Type="ProductList" />
+      <Association Name="User_Order" Member="Purchaser" ThisKey="Purchaser_id" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Association Name="User_Order1" Member="Shipper" ThisKey="Shipper_id" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="ProductList">
+    <Type Name="ProductList">
+      <Column Name="Product_id" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Order_id" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Count" Type="System.Double" CanBeNull="false" />
+      <Column Name="Id" AutoSync="Never" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Order_ProductList" Member="Order" ThisKey="Order_id" OtherKey="Id" Type="Order" IsForeignKey="true" />
+      <Association Name="Product_ProductList" Member="Product" ThisKey="Product_id" OtherKey="Id" Type="Product" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

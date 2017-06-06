@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="Storage.UserView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Storage"
+             mc:Ignorable="d" 
+             d:DesignHeight="308" d:DesignWidth="497" Loaded="UserControl_Loaded" Width="Auto" Height="Auto">
+    <TabControl>
+        <TabItem Header="Товары" >
+            <DockPanel Margin="-4">
+                <StackPanel Style="{StaticResource OutPanel}" DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <Button x:Name="BuyShipmentsButton" Content="Оформить" HorizontalContentAlignment="Center" Margin="10,10,0,10" Padding="10,0,10,1" VerticalAlignment="Center" RenderTransformOrigin="0.47,0.555" HorizontalAlignment="Right" Click="BuyShipmentsButton_Click"/>
+                    <Button x:Name="UpdateShipmentButton" Content="Обновить" HorizontalContentAlignment="Center" Margin="10,10,0,10" Padding="10,0,10,1" VerticalAlignment="Center" RenderTransformOrigin="0.47,0.555" HorizontalAlignment="Right" Click="UpdateShipmentButton_Click"/>
+                </StackPanel>
+                <Grid DockPanel.Dock="Top" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView x:Name="ShippersList" Grid.Column="0" SelectionChanged="ShippersList_SelectionChanged" Grid.RowSpan="2" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Поставщик"  DisplayMemberBinding="{Binding PublicName}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <GridSplitter Grid.Column="1" Width="5" VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="4,0" Grid.RowSpan="2"/>
+                    <DataGrid x:Name="ShipmentGrid" Margin="0" Grid.Column="2" CanUserAddRows="False" AutoGenerateColumns="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название товара" Binding="{Binding Name}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Цена за штуку" Binding="{Binding Price}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="На складе" Binding="{Binding Count}" IsReadOnly="True" />
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Padding="4, 0, 4, 0" Content="В корзину" Click="BuyButton_Click"/>
+                                            <TextBox 
+                                                x:Name="BuyCounter" MinWidth="62" Visibility="Collapsed" Text="0"
+                                                PreviewTextInput="BuyCounter_PreviewTextInput" LostFocus="BuyCounter_LostFocus" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </DockPanel>
+        </TabItem>
+        <TabItem Header="Заказаы">
+            <DockPanel LastChildFill="False">
+                <DataGrid x:Name="OrdersGrid" Margin="10" IsReadOnly="True" DockPanel.Dock="Top" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Номер заказа" Binding="{Binding Id}" />
+                        <DataGridTextColumn Header="Поставщик" Binding="{Binding Shipper.PublicName}" />
+                        <DataGridTextColumn Header="Дата заказа" Binding="{Binding Date}" />
+                        <DataGridTextColumn Header="ИТОГО" Binding="{Binding TotalPrice}" />
+                        <DataGridTextColumn Header="Статус" Binding="{Binding Status}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <StackPanel.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
+                    </StackPanel.Background>
+                    <Button x:Name="UpdateOrdersButton" Content="Обновить" HorizontalContentAlignment="Center" Margin="10,10,0,10" Padding="10,0,10,1" VerticalAlignment="Center" RenderTransformOrigin="0.47,0.555" HorizontalAlignment="Right" Click="UpdateOrdersButton_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </TabItem>
+        <TabItem Header="Профиль">
+            <DockPanel Margin="-4" LastChildFill="False">
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <StackPanel.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
+                    </StackPanel.Background>
+                    <Button x:Name="ApplyProfileButton" Content="Сохранить" HorizontalContentAlignment="Center" Margin="10,10,0,10" Padding="10,0,10,1" VerticalAlignment="Center" RenderTransformOrigin="0.47,0.555" HorizontalAlignment="Right" Click="ApplyProfileButton_Click"/>
+                </StackPanel>
+                <!--field-->
+                <Label Content="Адресс" DockPanel.Dock="Top" Margin="10,0"/>
+                <TextBox x:Name="ProfileAddress" Height="23" TextWrapping="Wrap" DockPanel.Dock="Top" Margin="10,0,10,10"/>
+                <!--field-->
+                <Label Content="ФИО" DockPanel.Dock="Top" Margin="10,0"/>
+                <TextBox x:Name="ProfileName" Height="23" TextWrapping="Wrap" DockPanel.Dock="Top" Margin="10,0,10,10"/>
+            </DockPanel>
+        </TabItem>
+    </TabControl>
+</UserControl>
